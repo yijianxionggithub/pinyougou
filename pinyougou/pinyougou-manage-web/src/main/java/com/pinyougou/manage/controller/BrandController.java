@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import sun.applet.Main;
 
 import java.util.List;
 
@@ -23,11 +24,17 @@ import java.util.List;
 @RestController
 public class BrandController {
 
-    @Reference
+    //设置最大超时时间10秒
+    @Reference(timeout = 10000)
     private BrandService brandService;
 
     @GetMapping("findAll")
     public List<TbBrand> findAll(){
-        return brandService.queryAll();
+        return brandService.findAll();
+    }
+
+    @GetMapping("testPage")
+    public List<TbBrand> testPage(Integer page,Integer rows){
+        return brandService.findPage(page,rows).getRows();
     }
 }
