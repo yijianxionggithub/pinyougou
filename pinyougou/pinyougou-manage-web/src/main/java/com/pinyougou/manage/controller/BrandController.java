@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.applet.Main;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version V1.0
@@ -111,5 +112,13 @@ public class BrandController {
                              @RequestParam(name="rows",defaultValue = "10") Integer rows,@RequestBody TbBrand tbBrand){
         PageResult pageResult = brandService.search(page,rows,tbBrand);
         return pageResult;
+    }
+
+    /**
+     * 查询所有品牌
+     */
+    @GetMapping("findOptionList")
+    public List<Map<String,Object>> findOptionList() {
+        return brandService.findOptionList();
     }
 }

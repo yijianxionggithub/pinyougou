@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--配置不需要进行登录就可以访问的资源-->
+    <http pattern="/login.html" security="none"/>
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/img/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/plugins/**" security="none"/>
+
+    <!--符合什么权限才可以访问资源
+    use-expressions 为false表示在使用角色的时候不使用表达式；如果使用了则需要在角色上添加hasRole()
+    -->
+    <http use-expressions="false">
+        <!--所有资源都需要有如下的角色才可以访问-->
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+
+        <!--  配置登录的信息，login-page登录页面，default-target-url登录成功后跳转地址;
+        authentication-failure-url 登录失败跳转地址
+        -->
+        <form-login login-page="/login.html" default-target-url="/admin/index.html"
+                    authentication-failure-url="/login.html"/>
+
+        <!--禁用csrf-->
+        <csrf disabled="true"/>
+
+        <!-- 在frame框架内跳转 -->
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+
+        <!-- 退出 -->
+        <logout/>
+    </http>
+
+    <!--配置授权-->
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="itcast" password="123456" authorities="ROLE_USER"/>
+                <user name="admin" password="123456" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

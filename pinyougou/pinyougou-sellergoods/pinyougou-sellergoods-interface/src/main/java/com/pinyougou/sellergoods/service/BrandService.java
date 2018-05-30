@@ -1,10 +1,11 @@
 package com.pinyougou.sellergoods.service;
 
-import com.pinyougou.Service.BaseService;
+import com.pinyougou.service.BaseService;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.vo.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version V1.0
@@ -34,4 +35,10 @@ public interface BrandService extends BaseService<TbBrand> {
      * @return
      */
     PageResult search(Integer page, Integer rows, TbBrand tbBrand);
+
+    /**
+     * 查询所有品牌  分类模板{data:[{id:'1',text:'联想'},{id:'2',text:'华为'}]}
+     * @return
+     */
+    List<Map<String,Object>> findOptionList();
 }

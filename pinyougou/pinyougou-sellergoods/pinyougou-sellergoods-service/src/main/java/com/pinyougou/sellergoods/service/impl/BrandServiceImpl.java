@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version V1.0
@@ -63,5 +64,10 @@ public class BrandServiceImpl extends BaseServiceImpl<TbBrand> implements BrandS
         PageInfo pageInfo = new PageInfo(tbBrandList);
 
         return new PageResult(pageInfo.getTotal(),pageInfo.getList());
+    }
+
+    @Override
+    public List<Map<String, Object>> findOptionList() {
+        return brandMapper.findOptionList();
     }
 }

@@ -4,6 +4,7 @@ import com.pinyougou.pojo.TbBrand;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version V1.0
@@ -20,4 +21,6 @@ public interface BrandMapper extends Mapper<TbBrand> {
      */
     @Deprecated
     public List<TbBrand> queryAll();
+
+    List<Map<String,Object>> findOptionList();
 }

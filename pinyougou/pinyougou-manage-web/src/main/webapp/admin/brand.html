@@ -13,115 +13,11 @@
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../plugins/angularjs/angular.min.js"></script>
 	<script src="../plugins/angularjs/pagination.js"></script>
+	<script src="../js/base_pagination.js"></script>
+	<script src="../js/service/brandService.js"></script>
+	<script src="../js/controller/baseController.js"></script>
+	<script src="../js/controller/brandController.js"></script>
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
-
-	<script type="text/javascript">
-		//指定模块
-		var app = angular.module("pinyougou",['pagination']);
-
-		//创建控制器
-		app.controller("brandController",function($scope,$http) {
-		    //发送请求查询所有品牌
-			/*$scope.findAll = function(){
-                 $http.get("../brand/findAll.do")
-                    .success(function(response){
-                        $scope.list = response;
-                 });
-			}*/
-            //初始化分页参数
-            $scope.paginationConf = {
-                currentPage:1,//当前页号
-                totalItems:10,//总记录数
-                itemsPerPage:10,//页大小
-                perPageOptions:[10, 20, 30, 40, 50],//可选择的每页大小
-                onChange: function () {//当上述的参数发生变化了后触发
-                    $scope.reloadList();
-                }
-            };
-			
-			//加载数据列表	
-			$scope.reloadList = function () {
-				//$scope.findPage( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-                $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-            };
-
-			//分页查询
-			$scope.findPage = function (page,rows) {
-				//发送请求查询数据
-				$http.get("../brand/findPage.do?page=" + page + "&rows=" + rows).success(function (response) {
-					$scope.list = response.rows;
-					//总记录数
-                    $scope.paginationConf.totalItems = response.total;
-                })
-            }
-
-            //保存一条数据
-			$scope.save = function(){
-			    var method = "add";
-			    if($scope.entity.id != null) {
-			        method = "update";
-                }
-				$http.post("../brand/" + method + ".do",$scope.entity).success(function(response) {
-					if(response.success) {
-                        //重新加载列表
-					    $scope.reloadList();
-					} else {
-					    alert(response.message);
-					}
-				});
-			}
-
-			//根据id查询一条数据
-            $scope.findOne = function (id) {
-			    //本次写少了一个http,导致页面第一,二条数据显示错误
-                $http.get("../brand/findOne.do?id=" + id).success(function (response) {
-                    $scope.entity = response;
-                });
-            }
-
-            //判断选中的checkedbox
-            $scope.selectedIds = [];
-            $scope.updateSelection = function ($event,id) {
-                var flag = $event.target.checked;
-                if(flag) {
-                    $scope.selectedIds.push(id);
-                } else {
-                    var index = $scope.selectedIds.indexOf(id);
-                    $scope.selectedIds.splice(index,1);
-                }
-            }
-
-            //批量删除
-            $scope.delete = function () {
-                //判断是否有选中数据
-                if($scope.selectedIds == null || $scope.selectedIds.length == 0 ) {
-                    alert("请选择要删除的数据");
-                    return;
-                }
-                if(confirm("您确定要删除该数据?")) {
-                    //删除
-                    $http.get("../brand/delete.do?ids=" + $scope.selectedIds).success(function (response) {
-                        //重新加载页面
-                        $scope.reloadList();
-                    }).error(function (response) {
-                        alert(reponse.message);
-                    });
-                }
-            }
-
-            //条件加分页查询
-			//定义空搜索条件对象,第一次访问空时,防止造成400错误
-            $scope.searchEntity = {};
-            $scope.search = function (page,rows) {
-                $http.post("../brand/search.do?page=" + page + "&rows=" + rows,$scope.searchEntity).success(function (response) {
-                    //页面数据
-                    $scope.list = response.rows;
-                    //页面总记录
-                    $scope.paginationConf.totalItems = response.total;
-                });
-            }
-		});
-	</script>
 
 
 </head>
