@@ -1,4 +1,4 @@
-app.controller("goodsController", function ($scope, $controller, goodsService) {
+app.controller("goodsController", function ($scope, $controller, goodsService,uploadService) {
 
     //加载baseController控制器并传入1个作用域，与angularJs运行时作用域相同.
     $controller("baseController",{$scope:$scope});
@@ -19,14 +19,19 @@ app.controller("goodsController", function ($scope, $controller, goodsService) {
 
     $scope.save = function () {
         var object;
-        if($scope.entity.id != null){//更新
+        //同步商品介绍信息到后台
+        $scope.entity.goodsDesc.introduction = editor.html();
+        if($scope.entity.goods.id != null){//更新
             object = goodsService.update($scope.entity);
         } else {//新增
             object = goodsService.add($scope.entity);
         }
         object.success(function (response) {
             if(response.success){
-                $scope.reloadList();
+                alert(response.message);
+                $scope.entity = {};
+                //清空kindeditor的文本框商品介绍
+                $scope.entity.goodsDesc.introduction = editor.html("");
             } else {
                 alert(response.message);
             }
@@ -64,5 +69,30 @@ app.controller("goodsController", function ($scope, $controller, goodsService) {
         });
 
     };
+
+    //上传图片
+    $scope.uploadFile = function () {
+        uploadService.uploadFile().success(function (response) {
+            //将url放入image_entity={"color":"","url":""}
+            $scope.image_entity.url = response.message;
+        }).error(function (response) {
+            alert(response.message);
+        });
+    };
+
+    //保存图片
+    $scope.entity = {goods:{},goodsDesc:{itemImages:[]}};
+    $scope.add_image_entity = function () {
+        //将image_entity加入entity中
+        $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
+        $scope.image_entity = {};
+    }
+
+    //删除图片
+    $scope.delete_image_entity = function (index) {
+        //将图片信息删除
+        $scope.entity.goodsDesc.itemImages.splice(index,1);
+    }
+
 
 });

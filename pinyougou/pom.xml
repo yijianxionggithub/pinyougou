@@ -9,12 +9,12 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>pinyougou-common</module>
         <module>pinyougou-pojo</module>
         <module>pinyougou-dao</module>
         <module>pinyougou-sellergoods</module>
         <module>pinyougou-manage-web</module>
         <module>pinyougou-shop-web</module>
+        <module>pinyougou-common</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->

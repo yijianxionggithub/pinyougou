@@ -67,7 +67,11 @@
     <dependency> 
       <groupId>org.springframework</groupId>  
       <artifactId>spring-context-support</artifactId> 
-    </dependency> 
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+    </dependency>
   </dependencies>  
   <build> 
     <plugins> 
