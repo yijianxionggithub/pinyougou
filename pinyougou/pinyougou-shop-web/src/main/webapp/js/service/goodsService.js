@@ -29,4 +29,14 @@ app.service("goodsService",function ($http) {
         return $http.post("../goods/search.do?page=" + page + "&rows=" + rows, searchEntity);
 
     };
+
+    //批量修改,提交审核
+    this.updateStatus = function (selectedIds,status) {
+        return $http.get("../goods/updateStatus.do?ids=" + selectedIds + "&status=" + status);
+    }
+
+    //批量审核商品
+    this.updateMarketable = function (selectedIds,status) {
+        return $http.get("../goods/updateMarketable.do?ids=" + selectedIds + "&status=" + status)
+    }
 });

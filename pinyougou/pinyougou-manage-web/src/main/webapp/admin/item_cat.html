@@ -29,7 +29,7 @@
 
 </head>
 
-<body ng-app="pinyougou" ng-controller="itemCatController" ng-init="findByParentId(0)" class="hold-transition skin-red sidebar-mini" >
+<body ng-app="pinyougou" ng-controller="itemCatController" ng-init="findByParentId(0);findTypeTemplateList()" class="hold-transition skin-red sidebar-mini" >
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="box-body">
-                  			 <ol class="breadcrumb">	                        	
+                  			 <ol class="breadcrumb">
                         		<li>
 		                        	<a href="#" ng-click="selectList(1,{id : 0})">顶级分类列表</a>
 		                        </li>
@@ -52,12 +52,11 @@
 
                         <!-- 数据表格 -->
                         <div class="table-box">
-							
                             <!--工具栏-->
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" ng-click="entity={}" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
                                        
@@ -121,7 +120,9 @@
 				<tr>
 		      		<td>上级商品分类</td>
 		      		<td>
-		      		   珠宝 >>  银饰
+		      		  <span ng-if="parentId != 0">
+						  << {{parentName}}
+					  </span>
 		      		</td>
 		      	</tr>
 		      	<tr>
@@ -135,8 +136,9 @@
 		      		</td>		      		      		
 		      	</tr>		      	
 			 </table>				
-			
+			{{typeTemplateList}}
 		</div>
+
 		<div class="modal-footer">						
 			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>

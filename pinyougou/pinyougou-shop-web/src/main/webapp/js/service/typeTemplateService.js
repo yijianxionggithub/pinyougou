@@ -30,10 +30,8 @@ app.service("typeTemplateService",function ($http) {
 
     };
 
-    //查询所有类型模板
-    this.findTypeTemplateList = function () {
-        return $http.get("../typeTemplate/findTypeTemplateList.do");
+    //查询规格和规格选项
+    this.findSpecList = function (id) {
+        return $http.get("../typeTemplate/findSpecList.do?id=" + id);
     }
-
-
 });

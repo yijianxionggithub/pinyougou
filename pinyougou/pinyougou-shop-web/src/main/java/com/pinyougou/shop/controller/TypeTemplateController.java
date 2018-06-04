@@ -1,7 +1,8 @@
-package com.pinyougou.manage.controller;
+package com.pinyougou.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbTypeTemplate;
+import com.pinyougou.sellergoods.service.ItemCatService;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Result;
@@ -79,9 +80,15 @@ public class TypeTemplateController {
         return typeTemplateService.search(page, rows, typeTemplate);
     }
 
-    @GetMapping("/findTypeTemplateList")
-    public List<Map<String,Object>> findTypeTemplateList(){
-        return typeTemplateService.findTypeTemplateList();
+    /**
+     * 在类型模板根据规格编号查询规格和对应的规格项
+     * @param id
+     * @return
+     */
+    @GetMapping("/findSpecList")
+    public List<Map> findSpecList(Long id) {
+       return typeTemplateService.findSpecList(id);
     }
+
 
 }

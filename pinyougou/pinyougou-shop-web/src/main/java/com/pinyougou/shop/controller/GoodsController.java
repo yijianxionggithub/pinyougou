@@ -46,14 +46,25 @@ public class GoodsController {
     }
 
     @GetMapping("/findOne")
-    public TbGoods findOne(Long id) {
-        return goodsService.findOne(id);
+    public Goods findOne(Long id) {
+        return goodsService.findGoods(id);
     }
 
+    /**
+     * 修改商品信息
+     * @param goods 商品基本信息,描述,sku
+     */
     @PostMapping("/update")
-    public Result update(@RequestBody TbGoods goods) {
+    public Result update(@RequestBody Goods goods) {
         try {
-            goodsService.update(goods);
+            //防止篡改
+            String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+            TbGoods oldGood = goodsService.findOne(goods.getGoods().getId());
+
+            if(!sellerId.equals(oldGood.getSellerId()) || !sellerId.equals(goods.getGoods().getSellerId())){
+                return Result.fail("非法修改");
+            }
+            goodsService.updateGoods(goods);
             return Result.ok("修改成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +93,42 @@ public class GoodsController {
     @PostMapping("/search")
     public PageResult search(@RequestBody  TbGoods goods, @RequestParam(value = "page", defaultValue = "1")Integer page,
                                @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        goods.setSellerId(sellerId);;
         return goodsService.search(page, rows, goods);
+    }
+
+    /**
+     * 批量提交审核商品
+     * @param ids 要审核的商品id
+     * @param status 审核的状态
+     */
+    @GetMapping("/updateStatus")
+    public Result updateStatus(Long[] ids,String status) {
+        try {
+            goodsService.updateStatus(ids,status);
+            return Result.ok("修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.ok("修改失败");
+    }
+
+    /**
+     * 上架下架商品
+     * @param ids 要操作的商品编号
+     * @param status 上架为'1',下架为'0'
+     * @return 操作结果
+     */
+    @GetMapping("/updateMarketable")
+    public Result updateMarketable(Long[] ids,String status) {
+        try {
+            goodsService.updateMarketable(ids,status);
+            return Result.ok("操作成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("操作失败");
     }
 
 }

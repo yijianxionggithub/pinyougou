@@ -3,26 +3,25 @@ package com.pinyougou.sellergoods.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mysql.fabric.xmlrpc.base.Param;
 import com.pinyougou.mapper.SpecificationMapper;
 import com.pinyougou.mapper.SpecificationOptionMapper;
 import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbSpecificationOption;
-import com.pinyougou.sellergoods.service.SpecificationOptionService;
 import com.pinyougou.sellergoods.service.SpecificationService;
 import com.pinyougou.service.impl.BaseServiceImpl;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Service(interfaceClass = SpecificationService.class)
+@Transactional
 public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> implements SpecificationService {
 
     @Autowired
